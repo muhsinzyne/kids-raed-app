@@ -12,8 +12,8 @@ const letters = {
 }
 
 const numbers = {
-  ascending: '0123456789'.split(''),
-  descending: '9876543210'.split('')
+  ascending: Array.from({ length: 100 }, (_, i) => (i + 1).toString()),
+  descending: Array.from({ length: 100 }, (_, i) => (100 - i).toString())
 }
 
 export function useItemsStore() {
