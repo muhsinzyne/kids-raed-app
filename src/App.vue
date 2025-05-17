@@ -3,6 +3,7 @@ import { onMounted, watch } from "vue";
 import DisplayCard from "./components/DisplayCard.vue";
 import ControlPanel from "./components/ControlPanel.vue";
 import AppHeader from "./components/AppHeader.vue";
+import MobileControls from "./components/MobileControls.vue";
 import { useItemsStore } from "./stores/itemsStore";
 
 const {
@@ -93,6 +94,13 @@ onMounted(() => {
       </div>
     </main>
 
+    <MobileControls
+      :isPlayMode="isPlayMode"
+      @prev="prevItem"
+      @next="nextItem"
+      @exit="togglePlayMode"
+    />
+
     <footer v-if="!isPlayMode" class="app-footer">
       <p>Swipe left/right or use arrows to navigate</p>
       <p>Press ESC to exit play mode</p>
@@ -169,6 +177,7 @@ onMounted(() => {
   .main-content {
     padding: 0.5rem;
     gap: 1rem;
+    margin-bottom: 5rem; /* Add space for mobile controls */
   }
 
   .progress-dot {
@@ -179,6 +188,7 @@ onMounted(() => {
   .app-footer {
     font-size: 0.8rem;
     padding: 0 1rem;
+    margin-bottom: 5rem; /* Add space for mobile controls */
   }
 }
 </style>
