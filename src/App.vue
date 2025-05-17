@@ -1,69 +1,70 @@
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue'
-import DisplayCard from './components/DisplayCard.vue'
-import ControlPanel from './components/ControlPanel.vue'
-import AppHeader from './components/AppHeader.vue'
-import { useItemsStore } from './stores/itemsStore'
+import { onMounted, watch } from "vue";
+import DisplayCard from "./components/DisplayCard.vue";
+import ControlPanel from "./components/ControlPanel.vue";
+import AppHeader from "./components/AppHeader.vue";
+import { useItemsStore } from "./stores/itemsStore";
 
-const { 
-  currentMode, 
+const {
+  currentMode,
   currentOrder,
   currentCase,
-  currentIndex, 
+  currentIndex,
   currentItem,
+  items,
   isPlayMode,
-  toggleMode, 
+  toggleMode,
   toggleOrder,
   toggleCase,
   togglePlayMode,
-  nextItem, 
+  nextItem,
   prevItem,
-  speakCurrentItem
-} = useItemsStore()
+  speakCurrentItem,
+} = useItemsStore();
 
 // Handle keyboard navigation
 function handleKeyDown(event: KeyboardEvent) {
-  if (event.key === 'ArrowRight' || event.key === ' ') {
-    nextItem()
-    speakCurrentItem()
-  } else if (event.key === 'ArrowLeft') {
-    prevItem()
-    speakCurrentItem()
-  } else if (event.key === 'Escape' && isPlayMode.value) {
-    togglePlayMode()
+  if (event.key === "ArrowRight" || event.key === " ") {
+    nextItem();
+    speakCurrentItem();
+  } else if (event.key === "ArrowLeft") {
+    prevItem();
+    speakCurrentItem();
+  } else if (event.key === "Escape" && isPlayMode.value) {
+    togglePlayMode();
   }
 }
 
 // Watch for play mode changes
 watch(isPlayMode, (newValue) => {
   if (newValue) {
-    document.documentElement.requestFullscreen()
+    document.documentElement.requestFullscreen();
   } else if (document.fullscreenElement) {
-    document.exitFullscreen()
+    document.exitFullscreen();
   }
-})
+});
 
 onMounted(() => {
-  window.addEventListener('keydown', handleKeyDown)
+  window.addEventListener("keydown", handleKeyDown);
   // Speak the initial item
   setTimeout(() => {
-    speakCurrentItem()
-  }, 500)
-})
+    speakCurrentItem();
+  }, 500);
+});
 </script>
 
 <template>
   <div class="app-container" :class="{ 'play-mode': isPlayMode }">
     <AppHeader v-if="!isPlayMode" />
-    
+
     <main class="main-content">
-      <DisplayCard 
-        :item="currentItem" 
+      <DisplayCard
+        :item="currentItem"
         :mode="currentMode"
         :isPlayMode="isPlayMode"
       />
-      
-      <ControlPanel 
+
+      <ControlPanel
         :currentMode="currentMode"
         :currentOrder="currentOrder"
         :currentCase="currentCase"
@@ -76,16 +77,16 @@ onMounted(() => {
         @prev-item="prevItem"
         @speak="speakCurrentItem"
       />
-      
+
       <div v-if="!isPlayMode" class="progress-indicator">
-        <div 
-          v-for="(item, index) in items" 
-          :key="index"
-          :class="['progress-dot', { active: index === currentIndex }]"
+        <div
+          v-for="index in items.length"
+          :key="index - 1"
+          :class="['progress-dot', { active: index - 1 === currentIndex }]"
         ></div>
       </div>
     </main>
-    
+
     <footer v-if="!isPlayMode" class="app-footer">
       <p>Press Space or Right Arrow to move to the next item</p>
       <p>Press ESC to exit play mode</p>
@@ -151,7 +152,7 @@ onMounted(() => {
   .main-content {
     padding: 1rem;
   }
-  
+
   .progress-dot {
     width: 10px;
     height: 10px;

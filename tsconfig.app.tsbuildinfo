@@ -1,0 +1,1 @@
+{"root":["./src/main.ts","./src/vite-env.d.ts","./src/services/speechservice.ts","./src/stores/itemsstore.ts","./src/app.vue","./src/components/appheader.vue","./src/components/controlpanel.vue","./src/components/displaycard.vue","./src/components/helloworld.vue"],"version":"5.8.3"}

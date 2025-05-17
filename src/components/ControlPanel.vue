@@ -6,6 +6,7 @@ interface Props {
   isPlayMode: boolean;
 }
 
+defineProps<Props>();
 const emit = defineEmits([
   "toggle-mode",
   "toggle-order",
