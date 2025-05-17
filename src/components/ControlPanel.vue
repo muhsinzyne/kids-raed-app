@@ -1,71 +1,67 @@
 <script setup lang="ts">
 interface Props {
-  currentMode: 'letters' | 'numbers'
-  currentOrder: 'ascending' | 'descending'
-  currentCase: 'lower' | 'upper'
-  isPlayMode: boolean
+  currentMode: "letters" | "numbers";
+  currentOrder: "ascending" | "descending";
+  currentCase: "lower" | "upper";
+  isPlayMode: boolean;
 }
 
-const props = defineProps<Props>()
-const emit = defineEmits(['toggle-mode', 'toggle-order', 'toggle-case', 'toggle-play-mode', 'next-item', 'prev-item', 'speak'])
+const emit = defineEmits([
+  "toggle-mode",
+  "toggle-order",
+  "toggle-case",
+  "toggle-play-mode",
+  "next-item",
+  "prev-item",
+  "speak",
+]);
 </script>
 
 <template>
-  <div class="control-panel" :class="{ 'hidden': isPlayMode }">
+  <div class="control-panel" :class="{ hidden: isPlayMode }">
     <div class="control-row">
-      <button 
-        class="control-btn mode-btn" 
+      <button
+        class="control-btn mode-btn"
         :class="{ active: currentMode === 'letters' }"
         @click="emit('toggle-mode')"
       >
-        {{ currentMode === 'letters' ? 'ABC' : '123' }}
+        {{ currentMode === "letters" ? "ABC" : "123" }}
       </button>
-      
-      <button 
-        class="control-btn order-btn" 
+
+      <button
+        class="control-btn order-btn"
         :class="{ active: currentOrder === 'ascending' }"
         @click="emit('toggle-order')"
       >
-        {{ currentOrder === 'ascending' ? 'A → Z' : 'Z → A' }}
+        {{ currentOrder === "ascending" ? "A → Z" : "Z → A" }}
       </button>
-      
-      <button 
+
+      <button
         v-if="currentMode === 'letters'"
-        class="control-btn case-btn" 
+        class="control-btn case-btn"
         :class="{ active: currentCase === 'upper' }"
         @click="emit('toggle-case')"
       >
-        {{ currentCase === 'upper' ? 'ABC' : 'abc' }}
+        {{ currentCase === "upper" ? "ABC" : "abc" }}
       </button>
-      
-      <button 
-        class="control-btn speak-btn"
-        @click="emit('speak')"
-      >
-        🔊
-      </button>
+
+      <button class="control-btn speak-btn" @click="emit('speak')">🔊</button>
     </div>
-    
+
     <div class="control-row">
-      <button 
-        class="control-btn nav-btn prev-btn"
-        @click="emit('prev-item')"
-      >
+      <button class="control-btn nav-btn prev-btn" @click="emit('prev-item')">
         ◀
       </button>
-      
-      <button 
+
+      <button
         class="control-btn nav-btn play-btn"
         :class="{ active: isPlayMode }"
         @click="emit('toggle-play-mode')"
       >
-        {{ isPlayMode ? '⏹' : '▶' }}
+        {{ isPlayMode ? "⏹" : "▶" }}
       </button>
-      
-      <button 
-        class="control-btn nav-btn next-btn"
-        @click="emit('next-item')"
-      >
+
+      <button class="control-btn nav-btn next-btn" @click="emit('next-item')">
         ▶
       </button>
     </div>
@@ -139,7 +135,8 @@ const emit = defineEmits(['toggle-mode', 'toggle-order', 'toggle-case', 'toggle-
   font-size: 1.5rem;
 }
 
-.prev-btn:hover, .next-btn:hover {
+.prev-btn:hover,
+.next-btn:hover {
   background-color: #e0e0e0;
 }
 
