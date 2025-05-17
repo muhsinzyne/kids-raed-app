@@ -26,6 +26,7 @@ export function useItemsStore() {
   const isPlayMode = ref(false)
   const currentCase = ref<Case>('lower')
   const autoplayTimer = ref<number | null>(null)
+  const soundEnabled = ref(true)
   
   // Computed
   const items = computed(() => {
@@ -107,9 +108,14 @@ export function useItemsStore() {
     }
   }
   
+  function toggleSound() {
+    soundEnabled.value = !soundEnabled.value
+  }
+  
   function speakCurrentItem() {
+    if (!soundEnabled.value) return
     const item = currentItem.value
-    speak(item) // Simply speak the letter or number without additional words
+    speak(item)
   }
   
   return {
@@ -120,10 +126,12 @@ export function useItemsStore() {
     items,
     isPlayMode,
     currentCase,
+    soundEnabled,
     toggleMode,
     toggleOrder,
     toggleCase,
     togglePlayMode,
+    toggleSound,
     nextItem,
     prevItem,
     speakCurrentItem

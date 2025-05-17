@@ -13,10 +13,12 @@ const {
   currentItem,
   items,
   isPlayMode,
+  soundEnabled,
   toggleMode,
   toggleOrder,
   toggleCase,
   togglePlayMode,
+  toggleSound,
   nextItem,
   prevItem,
   speakCurrentItem,
@@ -69,10 +71,12 @@ onMounted(() => {
         :currentOrder="currentOrder"
         :currentCase="currentCase"
         :isPlayMode="isPlayMode"
+        :soundEnabled="soundEnabled"
         @toggle-mode="toggleMode"
         @toggle-order="toggleOrder"
         @toggle-case="toggleCase"
         @toggle-play-mode="togglePlayMode"
+        @toggle-sound="toggleSound"
         @next-item="nextItem"
         @prev-item="prevItem"
         @speak="speakCurrentItem"

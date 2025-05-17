@@ -4,6 +4,7 @@ interface Props {
   currentOrder: "ascending" | "descending";
   currentCase: "lower" | "upper";
   isPlayMode: boolean;
+  soundEnabled: boolean;
 }
 
 defineProps<Props>();
@@ -12,6 +13,7 @@ const emit = defineEmits([
   "toggle-order",
   "toggle-case",
   "toggle-play-mode",
+  "toggle-sound",
   "next-item",
   "prev-item",
   "speak",
@@ -44,6 +46,14 @@ const emit = defineEmits([
         @click="emit('toggle-case')"
       >
         {{ currentCase === "upper" ? "ABC" : "abc" }}
+      </button>
+
+      <button
+        class="control-btn sound-btn"
+        :class="{ active: soundEnabled }"
+        @click="emit('toggle-sound')"
+      >
+        {{ soundEnabled ? "🔊" : "🔇" }}
       </button>
 
       <button class="control-btn speak-btn" @click="emit('speak')">🔊</button>
@@ -119,10 +129,14 @@ const emit = defineEmits([
   color: white;
 }
 
+.sound-btn {
+  background-color: var(--success-color);
+  color: white;
+}
+
 .speak-btn {
   background-color: var(--success-color);
   color: white;
-  font-size: 1.5rem;
 }
 
 .play-btn {
