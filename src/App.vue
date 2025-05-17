@@ -64,6 +64,8 @@ onMounted(() => {
         :item="currentItem"
         :mode="currentMode"
         :isPlayMode="isPlayMode"
+        @swipe-left="nextItem"
+        @swipe-right="prevItem"
       />
 
       <ControlPanel
@@ -92,7 +94,7 @@ onMounted(() => {
     </main>
 
     <footer v-if="!isPlayMode" class="app-footer">
-      <p>Press Space or Right Arrow to move to the next item</p>
+      <p>Swipe left/right or use arrows to navigate</p>
       <p>Press ESC to exit play mode</p>
     </footer>
   </div>
@@ -107,12 +109,14 @@ onMounted(() => {
   max-width: 1000px;
   margin: 0 auto;
   transition: all var(--transition-speed) ease;
+  padding: 0 1rem;
 }
 
 .app-container.play-mode {
   max-width: none;
   min-height: 100vh;
   background-color: var(--background-color);
+  padding: 0;
 }
 
 .main-content {
@@ -122,7 +126,7 @@ onMounted(() => {
   align-items: center;
   justify-content: center;
   gap: 2rem;
-  padding: 2rem;
+  padding: 1rem;
 }
 
 .progress-indicator {
@@ -131,6 +135,9 @@ onMounted(() => {
   margin-top: 2rem;
   flex-wrap: wrap;
   justify-content: center;
+  max-width: 100%;
+  overflow-x: auto;
+  padding: 0.5rem;
 }
 
 .progress-dot {
@@ -139,6 +146,7 @@ onMounted(() => {
   border-radius: 50%;
   background-color: #e0e0e0;
   transition: all 0.3s ease;
+  flex-shrink: 0;
 }
 
 .progress-dot.active {
@@ -150,16 +158,27 @@ onMounted(() => {
   margin-top: 2rem;
   font-size: 0.9rem;
   color: #666;
+  text-align: center;
 }
 
 @media (max-width: 768px) {
+  .app-container {
+    padding: 0 0.5rem;
+  }
+
   .main-content {
-    padding: 1rem;
+    padding: 0.5rem;
+    gap: 1rem;
   }
 
   .progress-dot {
     width: 10px;
     height: 10px;
+  }
+
+  .app-footer {
+    font-size: 0.8rem;
+    padding: 0 1rem;
   }
 }
 </style>

@@ -6,8 +6,8 @@
   <header class="app-header">
     <div class="logo">
       <span class="letter letter-r">R</span>
-      <span class="letter letter-e">e</span>
       <span class="letter letter-a">a</span>
+      <span class="letter letter-e">e</span>
       <span class="letter letter-d">d</span>
       <span class="app-title">App</span>
     </div>
@@ -35,10 +35,18 @@
   display: inline-block;
 }
 
-.letter-r { color: #ff6b6b; }
-.letter-e { color: #4a90e2; }
-.letter-a { color: #ffd166; }
-.letter-d { color: #06d6a0; }
+.letter-r {
+  color: #ff6b6b;
+}
+.letter-e {
+  color: #4a90e2;
+}
+.letter-a {
+  color: #ffd166;
+}
+.letter-d {
+  color: #06d6a0;
+}
 
 .app-title {
   font-size: 2rem;
@@ -58,11 +66,11 @@
   .letter {
     font-size: 2.2rem;
   }
-  
+
   .app-title {
     font-size: 1.6rem;
   }
-  
+
   .app-subtitle {
     font-size: 1.1rem;
   }

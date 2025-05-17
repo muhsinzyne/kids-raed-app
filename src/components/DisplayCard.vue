@@ -1,35 +1,70 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref, watch } from "vue";
 
 interface Props {
-  item: string
-  mode: 'letters' | 'numbers'
-  isPlayMode: boolean
+  item: string;
+  mode: "letters" | "numbers";
+  isPlayMode: boolean;
 }
 
-const props = defineProps<Props>()
-const isAnimating = ref(false)
+const props = defineProps<Props>();
+const emit = defineEmits(["swipe-left", "swipe-right"]);
+const isAnimating = ref(false);
+const touchStart = ref<number | null>(null);
+const touchEnd = ref<number | null>(null);
+
+// Minimum swipe distance (in px)
+const minSwipeDistance = 50;
+
+function handleTouchStart(e: TouchEvent) {
+  touchEnd.value = null;
+  touchStart.value = e.targetTouches[0].clientX;
+}
+
+function handleTouchMove(e: TouchEvent) {
+  touchEnd.value = e.targetTouches[0].clientX;
+}
+
+function handleTouchEnd() {
+  if (!touchStart.value || !touchEnd.value) return;
+
+  const distance = touchStart.value - touchEnd.value;
+  const isLeftSwipe = distance > minSwipeDistance;
+  const isRightSwipe = distance < -minSwipeDistance;
+
+  if (isLeftSwipe) {
+    emit("swipe-left");
+  } else if (isRightSwipe) {
+    emit("swipe-right");
+  }
+}
 
 // Trigger animation when item changes
-watch(() => props.item, () => {
-  isAnimating.value = true
-  setTimeout(() => {
-    isAnimating.value = false
-  }, 500)
-})
+watch(
+  () => props.item,
+  () => {
+    isAnimating.value = true;
+    setTimeout(() => {
+      isAnimating.value = false;
+    }, 500);
+  }
+);
 </script>
 
 <template>
-  <div 
-    class="display-card" 
-    :class="{ 
-      'mode-letters': mode === 'letters', 
+  <div
+    class="display-card"
+    :class="{
+      'mode-letters': mode === 'letters',
       'mode-numbers': mode === 'numbers',
-      'play-mode': isPlayMode 
+      'play-mode': isPlayMode,
     }"
+    @touchstart="handleTouchStart"
+    @touchmove="handleTouchMove"
+    @touchend="handleTouchEnd"
   >
     <div class="card-content">
-      <div class="item-display" :class="{ 'bounce': isAnimating }">
+      <div class="item-display" :class="{ bounce: isAnimating }">
         {{ item }}
       </div>
       <div v-if="!isPlayMode" class="item-description">
@@ -57,6 +92,7 @@ watch(() => props.item, () => {
   justify-content: center;
   overflow: hidden;
   position: relative;
+  touch-action: pan-y pinch-zoom;
 }
 
 .display-card.play-mode {
@@ -124,7 +160,8 @@ watch(() => props.item, () => {
 }
 
 @keyframes float {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0);
   }
   50% {
@@ -138,18 +175,19 @@ watch(() => props.item, () => {
 
 @media (max-width: 768px) {
   .display-card:not(.play-mode) {
-    max-width: 250px;
+    max-width: 100%;
     height: 250px;
+    margin: 0 1rem;
   }
-  
+
   .item-display {
     font-size: 6rem;
   }
-  
+
   .play-mode .item-display {
     font-size: 15rem;
   }
-  
+
   .item-description {
     font-size: 1rem;
   }

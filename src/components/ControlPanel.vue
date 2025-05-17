@@ -87,6 +87,7 @@ const emit = defineEmits([
   width: 100%;
   max-width: 500px;
   transition: opacity 0.3s ease;
+  padding: 0 1rem;
 }
 
 .control-panel.hidden {
@@ -97,7 +98,8 @@ const emit = defineEmits([
 .control-row {
   display: flex;
   justify-content: center;
-  gap: 1rem;
+  gap: 0.5rem;
+  flex-wrap: wrap;
 }
 
 .control-btn {
@@ -111,7 +113,9 @@ const emit = defineEmits([
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 80px;
+  min-width: 60px;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .mode-btn {
@@ -169,10 +173,22 @@ const emit = defineEmits([
 }
 
 @media (max-width: 768px) {
+  .control-panel {
+    padding: 0 0.5rem;
+  }
+
+  .control-row {
+    gap: 0.3rem;
+  }
+
   .control-btn {
     padding: 0.6rem 0.8rem;
     font-size: 1rem;
-    min-width: 60px;
+    min-width: 50px;
+  }
+
+  .nav-btn {
+    font-size: 1.2rem;
   }
 }
 </style>
